@@ -3,15 +3,17 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import numpy as np
 import math
+from sklearn.feature_selection import VarianceThreshold
+import pickle
 df=pd.read_csv('test.csv')
 train, test = train_test_split(df, test_size = 0.2)
+
 clf=tree.DecisionTreeRegressor()
 clf= clf.fit(train[['I','II','III','IV']],train[['V']])
-inp= [float(x) for x in input().split()]
-a=clf.predict([inp])
-print("Predicted %=", a)
 test_value= []
 np_test=np.asarray(test)
+filename='regression_model.sav'
+pickle.dump(clf, open(filename, 'wb'))
 for x in range(len(test)):
 	test_value.append(clf.predict([np_test[x,0:4]]))
 np_value=np.asarray(test_value)
